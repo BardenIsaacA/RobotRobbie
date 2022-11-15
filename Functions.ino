@@ -25,6 +25,8 @@ int rightJunction = 0;
 
 int oldLeftSpeed = 0; // to avoid the arduino updating constantly
 int oldRightSpeed = 0;
+int oldLeftDir = 0; // 0 for backwards, 1 for forwards
+int oldRightDir = 0;
 
 const int baseMotorSpeed = 255; // Change these to affect the speed and turning circle
 const int lowTurnSpeed = 10;
@@ -37,6 +39,36 @@ void leftTurn(){
   oldLeftSpeed = lowTurnSpeed;
   myMotorLeft->run(FORWARD);
   myMotorRight->run(FORWARD);
+  oldLeftDir = 1;
+  oldRightDir = 1;
+  return;
+  }
+}
+
+void sharpLeft(){
+  if (oldLeftDir != 0){ //check if speeds actually need updating
+    myMotorRight->setSpeed(baseMotorSpeed); // set right motor high speed and
+    oldRightSpeed = baseMotorSpeed; // update speed for update requirement check
+    myMotorLeft->setSpeed(baseMotorSpeed); // left motor low speed to perform turn with large radius
+    oldLeftSpeed = baseMotorSpeed;
+    myMotorLeft->run(BACKWARD);
+    myMotorRight->run(FORWARD);
+    oldLeftDir = 0;
+    oldRightDir = 1;
+  return;
+  }
+}
+
+void sharpRight(){
+  if (oldRightDir != 0){ //check if speeds actually need updating
+    myMotorRight->setSpeed(baseMotorSpeed); // set right motor high speed and
+    oldRightSpeed = baseMotorSpeed; // update speed for update requirement check
+    myMotorLeft->setSpeed(baseMotorSpeed); // left motor low speed to perform turn with large radius
+    oldLeftSpeed = baseMotorSpeed;
+    myMotorLeft->run(FORWARD);
+    myMotorRight->run(BACKWARD);
+    oldLeftDir = 1;
+    oldRightDir = 0;
   return;
   }
 }
@@ -49,6 +81,8 @@ void rightTurn(){
     oldRightSpeed = lowTurnSpeed;
     myMotorLeft->run(FORWARD);
     myMotorRight->run(FORWARD);
+    oldLeftDir = 1;
+    oldRightDir = 1;
     return;
   }
 }
@@ -61,6 +95,8 @@ void forwards(){
     oldRightSpeed = baseMotorSpeed;
     myMotorLeft->run(FORWARD);
     myMotorRight->run(FORWARD);
+    oldLeftDir = 1;
+    oldRightDir = 1;
     return;
   }
 }
@@ -73,6 +109,8 @@ void stop(){
     oldRightSpeed = 0;
     myMotorLeft->run(FORWARD);
     myMotorRight->run(FORWARD);
+    oldLeftDir = 1;
+    oldRightDir = 1;
     return;
   }
 }
@@ -121,31 +159,4 @@ void finish(){
     count += 1;
   }
   return;  
-}
-
-void setup() {
-  // put your setup code here, to run once:
-// motor setup
-AFMS.begin();
-myMotorLeft->setSpeed(127); //left wheel
-myMotorRight->setSpeed(127);// right wheel
-oldLeftSpeed = 127;
-oldRightSpeed = 127;
-
-// button setup
-pinMode(onOff, INPUT); // push to make button
-
-// line sensors setup
-pinMode(leftLineSensorInner, INPUT); // inner left light sensor
-pinMode(rightLineSensorInner, INPUT); //Rightlightsensor
-
-}
-
-
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  begin();
-  lineFollowing();
-  finish(); // need to check if should finish 
 }
