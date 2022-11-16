@@ -3,8 +3,8 @@ const int echoPin = 13; // Change this pin number top whichever the echo is conn
 // both are set as constant as they are pin numbers
 
 // defines variables
-long duration; // duration stored in long as is measured in microseconds
-int distance; // distance stored as int as measured in cm up to 994 (maximum for sensor)
+long duration = 0; // duration stored in long as is measured in microseconds
+int distance = 0; // distance stored as int as measured in cm up to 994 (maximum for sensor)
 void setup() {
   pinMode(triggerPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input

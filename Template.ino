@@ -1,4 +1,4 @@
-// This is a template containing all the imports and constants currently needed to run the code
+// This is a template containing all the imports and constants currently needed to run the code, add to this if we add more things
 Adafruit_DCMotor *myMotorRight= AFMS.getMotor(2);
 
 const int leftLineSensorOuter = 1;
