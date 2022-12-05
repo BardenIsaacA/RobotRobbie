@@ -340,7 +340,7 @@ void lineFollowing(){
 }
 
 void USNavRamp(){
-  /* As the robot is fron wheel driven it loses the line
+  /* As the robot is front wheel driven it loses the line
   going over the ramp. So, we switch to navigation using
   an ultrasonic and distance to the wall */
   blink();
